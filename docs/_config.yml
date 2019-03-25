@@ -1,8 +1,8 @@
 # name
-name: New Repository Documentation
+name: BeagleBone Enhanced IO
 
 # description
-description: Documentation site for the new respository.
+description: Documentation site for BeagleBone Enhanced IO
 
 # site theme
 theme: jekyll-theme-minimal
