@@ -38,7 +38,7 @@ int get_pin_direction(char* pin) {
 			return 1;
 		}
 	}
-	printf("[!] how the hell did I get here?? gpio_base.c:get_pin_mode");
+	printf("[!] how the hell did I get here?? gpio_base.c:get_pin_mode\n");
 	return -1;
 }
 
