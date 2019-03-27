@@ -36,7 +36,9 @@ int set_pin_mode(char* pin, int mode) {
 		// successfully opened file
 		char contents[10] = "";
 		char ch = 0;
+		printf("About to read");
 		while ( (ch = fgetc(fp)) != EOF ) {
+			printf("ch = %s, contents = %s\n", ch, contents);
 			strcat(contents, ch);
 		}
 		printf("Read file, contents are %s\n", contents);
