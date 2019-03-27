@@ -29,10 +29,9 @@ int get_pin_direction(char* pin) {
 	if (fgets(contents, sizeof(contents), fp) == NULL) {
 		// uh-oh
 		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
-		return -1
+		return -1;
 	} else {
 		// success!
-		int 
 		if (strcmp(contents, "in") == 0) {
 			return 0;
 		} else if (strcmp(contents, "out") == 0) {
@@ -64,12 +63,12 @@ int set_pin_direction(char* pin, int direction) {
 	// First, check to see if we're already in the desired mode
 	// Read file, check against argument.  Saves disk IO if not needed
 	int current_dir = get_pin_direction(pin);
-	if (curent_dir == -1) {
+	if (current_dir == -1) {
 		printf("[!] unable to determine pin direction, goahead with overwrite\n");
 	} else {
 		if (direction == current_dir) {
 			// no work to be done
-			return 1
+			return 1;
 		}
 	}
 
@@ -110,5 +109,5 @@ int set_pin_direction(char* pin, int direction) {
  * Try to set GPIO66 to output, and turn it on
  */
 int main(void) {
-	set_pin_mode("gpio66", 1);
+	set_pin_direction("gpio66", 1);
 }
