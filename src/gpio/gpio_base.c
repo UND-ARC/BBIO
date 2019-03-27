@@ -37,7 +37,7 @@ int set_pin_mode(char* pin, int mode) {
 		char contents[10] = "";
 		char buffer[10] = "";
 		printf("About to read\n");
-		while ( fgets(buffer, sizeof(buffer, fp) ) {
+		while ( fgets(buffer, sizeof(buffer), fp) ) {
 			printf("ch = %s, contents = %s\n", buffer, contents);
 			strcat(contents, buffer);
 		}
@@ -48,7 +48,7 @@ int set_pin_mode(char* pin, int mode) {
 				return 1;
 			} else {
 				fclose(fp);
-				free(contents);
+				//free(buffer); free(contents);
 			}
 		} else if (mode == 1) {
 			if (strcmp(contents, "out") == 0) {
@@ -56,7 +56,7 @@ int set_pin_mode(char* pin, int mode) {
 				return 1;
 			} else {
 				fclose(fp);
-				free(contents);
+				//free(buffer); free(contents);
 			}
 		}
 	}
