@@ -16,6 +16,8 @@
  * Returns 1 if successful, 0 if failed.
  */
 int set_pin_mode(char* pin, int mode) {
+	printf("GPIO_PIN_DIR = %s\n", GPIO_PIN_DIR);
+	printf("GPIO_PIN_DIRECTION = %s\n", GPIO_PIN_DIRECTION);
 	FILE *fp;
 	char filepath[1024] = "";  // init with plenty of space
 			      // TODO: dynamic allocation to save RAM
@@ -27,7 +29,7 @@ int set_pin_mode(char* pin, int mode) {
 	// Read file, check against argument.  Saves disk IO if not needed
 	fp = fopen(filepath, "r");
 	if (fp == NULL) {
-		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s", errno, pin);
+		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
 		return 0;
 	} else {
 		// successfully opened file
@@ -60,7 +62,7 @@ int set_pin_mode(char* pin, int mode) {
 
 	fp = fopen(filepath, "w");
 	if (fp == NULL) {
-		printf("[!] failed to open gpio direction file for writing, errno=%d, pin=%s", errno, pin);
+		printf("[!] failed to open gpio direction file for writing, errno=%d, pin=%s\n", errno, pin);
 		return 0;
 	}
 
@@ -76,7 +78,7 @@ int set_pin_mode(char* pin, int mode) {
 	// write it
 	int res = fputs(write_out, fp);
 	if (res == EOF) {
-		printf("[!] failed to write to gpio direction file, errno=%d, pin=%s", errno, pin);
+		printf("[!] failed to write to gpio direction file, errno=%d, pin=%s\n", errno, pin);
 		return 0;
 	}
 
