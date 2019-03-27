@@ -32,9 +32,9 @@ int get_pin_direction(char* pin) {
 		return -1;
 	} else {
 		// success!
-		if (strcmp(contents, "in") == 0) {
+		if (strcmp(contents, "in\n") == 0) {
 			return 0;
-		} else if (strcmp(contents, "out") == 0) {
+		} else if (strcmp(contents, "out\n") == 0) {
 			return 1;
 		}
 	}
