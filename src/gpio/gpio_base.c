@@ -17,8 +17,8 @@
  */
 int set_pin_mode(char* pin, int mode) {
 	FILE *fp;
-	char filepath[1024] = "";  // init with plenty of space
-			      // TODO: dynamic allocation to save RAM
+	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION)));
+
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
 	strcat(filepath, GPIO_PIN_DIRECTION);
@@ -28,6 +28,7 @@ int set_pin_mode(char* pin, int mode) {
 	fp = fopen(filepath, "r");
 	printf("got file pointer\n");
 	if (fp == NULL) {
+		printf("[!] failed\n");
 		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
 		return 0;
 	} else {
