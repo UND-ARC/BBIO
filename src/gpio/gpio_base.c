@@ -32,13 +32,14 @@ int set_pin_mode(char* pin, int mode) {
 		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
 		return 0;
 	} else {
-		printf("Opened file successfully (for reading)");
+		printf("Opened file successfully (for reading)\n");
 		// successfully opened file
 		char contents[10] = "";
 		char ch = 0;
 		while ( (ch = fgetc(fp)) != EOF ) {
 			strcat(contents, ch);
 		}
+		printf("Read file, contents are %s\n", contents);
 		if (mode == 0) {
 			if (strcmp(contents, "in") == 0) {
 				// Done!  Mode is already input
