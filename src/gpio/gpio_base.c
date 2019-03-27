@@ -17,7 +17,7 @@
  */
 int set_pin_mode(char* pin, int mode) {
 	FILE *fp;
-	char filepath[1024];  // init with plenty of space
+	char filepath[1024] = NULL;  // init with plenty of space
 			      // TODO: dynamic allocation to save RAM
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
@@ -31,8 +31,8 @@ int set_pin_mode(char* pin, int mode) {
 		return 0;
 	} else {
 		// successfully opened file
-		char contents[10];
-		char ch;
+		char contents[10] = NULL;
+		char ch = NULL;
 		while ( (ch = fgetc(fp)) != EOF ) {
 			strcat(contents, ch);
 		}
@@ -66,7 +66,7 @@ int set_pin_mode(char* pin, int mode) {
 
 	// file open, write to it
 	// first, decide what we're going to write
-	char write_out[3];
+	char write_out[3] = NULL;
 	if (mode == 0) {
 		strcat(write_out, "in");
 	} else if (mode == 1) {
