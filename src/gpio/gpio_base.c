@@ -6,6 +6,44 @@
 
 #include "gpio_base.h"
 
+
+/*
+ * Get the (gpio) pin direction, in or out.
+ *
+ * Arguments:
+ *  char* pin : the pin name (e.g. "gpio66")
+ *
+ * Returns 1 if output, 0 if input.  -1 if error
+ */
+int get_pin_direction(char* pin) {
+	FILE *fp;
+	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION)));
+
+	strcpy(filepath, GPIO_PIN_DIR);
+	strcat(filepath, pin);
+	strcat(filepath, GPIO_PIN_DIRECTION);
+
+	// read file contents
+	fp = fopen(filepath, "r");
+	char contents[4];  // mode is only ever "in" or "out"
+	if (fgets(contents, sizeof(contents), fp) == NULL) {
+		// uh-oh
+		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
+		return -1
+	} else {
+		// success!
+		int 
+		if (strcmp(contents, "in") == 0) {
+			return 0;
+		} else if (strcmp(contents, "out") == 0) {
+			return 1;
+		}
+	}
+	printf("[!] how the hell did I get here?? gpio_base.c:get_pin_mode");
+	return -1
+}
+
+
 /*
  * Set the (gpio) pin mode to whatever it's supposed to be
  *
@@ -15,7 +53,7 @@
  *
  * Returns 1 if successful, 0 if failed.
  */
-int set_pin_mode(char* pin, int mode) {
+int set_pin_direction(char* pin, int direction) {
 	FILE *fp;
 	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION)));
 
@@ -25,33 +63,13 @@ int set_pin_mode(char* pin, int mode) {
 
 	// First, check to see if we're already in the desired mode
 	// Read file, check against argument.  Saves disk IO if not needed
-	fp = fopen(filepath, "r");
-	if (fp == NULL) {
-		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
-		return 0;
+	int current_dir = get_pin_direction(pin);
+	if (curent_dir == -1) {
+		printf("[!] unable to determine pin direction, goahead with overwrite\n");
 	} else {
-		// successfully opened file
-		char contents[10] = "";
-		char buffer[10] = "";
-		while ( fgets(buffer, sizeof(buffer), fp) ) {
-			strcat(contents, buffer);
-		}
-		if (mode == 0) {
-			if (strcmp(contents, "in") == 0) {
-				// Done!  Mode is already input
-				return 1;
-			} else {
-				fclose(fp);
-				//free(buffer); free(contents);
-			}
-		} else if (mode == 1) {
-			if (strcmp(contents, "out") == 0) {
-				// Done! Mode is already output
-				return 1;
-			} else {
-				fclose(fp);
-				//free(buffer); free(contents);
-			}
+		if (direction == current_dir) {
+			// no work to be done
+			return 1
 		}
 	}
 
@@ -83,6 +101,9 @@ int set_pin_mode(char* pin, int mode) {
 	// wrote it, done
 	return 1;
 }
+
+
+
 
 /*
  * Tests:
