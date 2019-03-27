@@ -84,7 +84,7 @@ int set_pin_direction(char* pin, int direction) {
 	// file open, write to it
 	// first, decide what we're going to write
 	char write_out[3] = "";
-	if (mode == 0) {
+	if (direction == 0) {
 		strcat(write_out, "in");
 	} else if (direction == 1) {
 		strcat(write_out, "out");
