@@ -21,9 +21,13 @@ int set_pin_mode(char* pin, int mode) {
 	FILE *fp;
 	char filepath[1024] = "";  // init with plenty of space
 			      // TODO: dynamic allocation to save RAM
+	printf("Allocated memory for filepath buffer\n");
 	strcpy(filepath, GPIO_PIN_DIR);
+	printf("Filepath = %s\n", filepath);
 	strcat(filepath, pin);
+	printf("Filepath = %s\n", filepath);
 	strcat(filepath, GPIO_PIN_DIRECTION);
+	printf("Filepath = %s\n", filepath);
 
 	// First, check to see if we're already in the desired mode
 	// Read file, check against argument.  Saves disk IO if not needed
