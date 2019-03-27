@@ -17,7 +17,7 @@
  */
 int set_pin_mode(char* pin, int mode) {
 	FILE *fp;
-	char[1024] filepath;  // init with plenty of space
+	char filepath[1024];  // init with plenty of space
 			      // TODO: dynamic allocation to save RAM
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
@@ -31,14 +31,15 @@ int set_pin_mode(char* pin, int mode) {
 		return 0;
 	} else {
 		// successfully opened file
-		char[10] contents;
+		char contents[10];
+		char ch;
 		while ( (ch = fgetc(fp)) != EOF ) {
 			strcat(contents, ch);
 		}
 		if (mode == 0) {
 			if (strcmp(contents, "in") == 0) {
 				// Done!  Mode is already input
-				return 1
+				return 1;
 			} else {
 				fclose(fp);
 				free(contents);
@@ -46,7 +47,7 @@ int set_pin_mode(char* pin, int mode) {
 		} else if (mode == 1) {
 			if (strcmp(contents, "out") == 0) {
 				// Done! Mode is already output
-				return 1
+				return 1;
 			} else {
 				fclose(fp);
 				free(contents);
@@ -65,7 +66,7 @@ int set_pin_mode(char* pin, int mode) {
 
 	// file open, write to it
 	// first, decide what we're going to write
-	char[3] write_out;
+	char write_out[3];
 	if (mode == 0) {
 		strcat(write_out, "in");
 	} else if (mode == 1) {
@@ -75,12 +76,12 @@ int set_pin_mode(char* pin, int mode) {
 	// write it
 	int res = fputs(write_out, fp);
 	if (res == EOF) {
-		printf("[!] failed to write to gpio direction file, errno=%s, pin=%s", errno, pin);
+		printf("[!] failed to write to gpio direction file, errno=%d, pin=%s", errno, pin);
 		return 0;
 	}
 
 	// wrote it, done
-	return 1
+	return 1;
 }
 
 /*

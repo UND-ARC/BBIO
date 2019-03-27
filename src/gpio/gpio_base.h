@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <string.h>
 
 #ifndef GPIO_PIN_DIR
 	#define GPIO_PIN_DIR "/sys/class/gpio/"
