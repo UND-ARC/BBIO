@@ -39,7 +39,7 @@ int get_pin_direction(char* pin) {
 		}
 	}
 	printf("[!] how the hell did I get here?? gpio_base.c:get_pin_mode");
-	return -1
+	return -1;
 }
 
 
@@ -86,7 +86,7 @@ int set_pin_direction(char* pin, int direction) {
 	char write_out[3] = "";
 	if (mode == 0) {
 		strcat(write_out, "in");
-	} else if (mode == 1) {
+	} else if (direction == 1) {
 		strcat(write_out, "out");
 	}
 
