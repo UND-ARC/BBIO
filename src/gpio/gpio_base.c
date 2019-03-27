@@ -26,22 +26,16 @@ int set_pin_mode(char* pin, int mode) {
 	// First, check to see if we're already in the desired mode
 	// Read file, check against argument.  Saves disk IO if not needed
 	fp = fopen(filepath, "r");
-	printf("got file pointer\n");
 	if (fp == NULL) {
-		printf("[!] failed\n");
 		printf("[!] failed to read gpio pin mode, errno=%d, pin=%s\n", errno, pin);
 		return 0;
 	} else {
-		printf("Opened file successfully (for reading)\n");
 		// successfully opened file
 		char contents[10] = "";
 		char buffer[10] = "";
-		printf("About to read\n");
 		while ( fgets(buffer, sizeof(buffer), fp) ) {
-			printf("ch = %s, contents = %s\n", buffer, contents);
 			strcat(contents, buffer);
 		}
-		printf("Read file, contents are %s\n", contents);
 		if (mode == 0) {
 			if (strcmp(contents, "in") == 0) {
 				// Done!  Mode is already input
