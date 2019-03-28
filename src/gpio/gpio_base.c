@@ -101,7 +101,41 @@ int set_pin_direction(char* pin, int direction) {
 	return 1;
 }
 
+/*
+ * Gets the GPIO pin value.
+ *
+ * Arguments:
+ *  char* pin : the pin to get, e.g. "gpio66"
+ *
+ * Returns:
+ *  int : 1 or 0: pin value; -1: error
+ */
+int get_pin_value(char* pin) {
+	FILE* fp;
+	char* filepath = malloc(sizeof(char) * ( strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE) ));	
 
+	strcpy(filepath, GPIO_PIN_DIR);
+	strcat(filepath, pin);
+	strcat(filepath, GPIO_PIN_VALUE);
+
+	fp = fopen(filepath, "r");
+	if (fp == NULL) {
+		printf("[!] failed to open gpio pin value for reading, errno=%d, pin=%s\n", errno, pin);
+		return -1;
+	}
+
+	char contents[2];  // one character and a newline
+	if ( fgets(contents, sizeof(contents), fp) == NULL) {
+		// uh-oh
+		printf("[!] failed to read gpio pin value, errno=%d, pin=%s\n", errno, pin);
+		return -1;
+	} else {
+		return atoi(contents);
+	}
+
+	printf("[!] how the hell did i get here?? gpio_base:get_pin_value\n");
+	return -1;
+}
 
 
 /*
@@ -109,5 +143,13 @@ int set_pin_direction(char* pin, int direction) {
  * Try to set GPIO66 to output, and turn it on
  */
 int main(void) {
+	printf("========== GPIO self-test =========\n");
+	printf("Pin: gpio66\n");  char pin[] = "gpio66";
+	printf("direction: %d\n", get_pin_direction(pin));
+	printf("Setting to out...");
 	set_pin_direction("gpio66", 1);
+	printf("Done!  direction: %d\n", get_pin_direction(pin));
+
+	printf("value: %d\n", get_pin_value(pin));
+	printf("========== GPIO self-test done ====\n");
 }
