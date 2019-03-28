@@ -13,3 +13,6 @@
 	#define GPIO_PIN_DIR "/sys/class/gpio/"
 	#define GPIO_PIN_DIRECTION "/direction"
 #endif
+
+int get_pin_direction(char* pin);
+int set_pin_direction(char* pin, int direction);
