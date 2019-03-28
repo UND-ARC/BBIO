@@ -137,6 +137,67 @@ int get_pin_value(char* pin) {
 	return -1;
 }
 
+/*
+ * Sets the GPIO pin value.
+ *
+ * Arguments:
+ *  char* pin : the pin to change, e.g. "gpio66"
+ *  int value : the new output value (1 or 0)
+ *
+ * Returns:
+ *  int: 1 if success
+ *       0 if pin is in input mode (error)
+ *       -1 if other error
+ */
+int set_pin_value(char* pin, int value) {
+	int cur_value = get_pin_value(pin);
+	if (cur_value == value) {
+		// no work to be done
+		// however, if the pin is input, that's still an error
+		// with response code 0.
+		// because of this, we can simply return the pin direction
+		// (1 for output (good), 0 for input (bad), -1 other error)
+		return get_pin_direction(pin);
+	}
+
+	FILE* fp;
+	char* filepath = malloc(sizeof(char) + (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE)));
+
+	strcpy(filepath, GPIO_PIN_DIR);
+	strcat(filepath, pin);
+	strcat(filepath, GPIO_PIN_VALUE);
+
+	fp = fopen(filepath, "w");
+	free(filepath);
+	if (fp == NULL) {
+		// dammit
+		printf("[!] failed to open gpio value file for writing, errno=%d, pin=%s\n", errno, pin);
+		return -1;
+	}
+
+	// value sanity-check
+	if ( (value != 0) && (value != 1) ) {
+		printf("[!] illegal argument given to set_pin_value; must be 0 or 1; got %d\n", value);
+		fclose(fp);
+		return -1;
+	}
+
+	// if we're here, write to the file
+	char contents[2] = "";
+	snprintf(contents, sizeof(contents), "%d", value);
+
+	int res = fputs(contents, fp);
+	if (res == EOF) {
+		printf("[!] failed to write gpio value, errno=%d, pin=%s, value=%d\n", errno, pin, value);
+		fclose(fp);
+		return -1;
+	}
+
+	// if we got here, mission success
+	fclose(fp);
+	return 1;
+}
+
 
 /*
  * Tests:
@@ -147,9 +208,12 @@ int main(void) {
 	printf("Pin: gpio66\n");  char pin[] = "gpio66";
 	printf("direction: %d\n", get_pin_direction(pin));
 	printf("Setting to out...");
-	set_pin_direction("gpio66", 1);
+	set_pin_direction(pin, 1);
 	printf("Done!  direction: %d\n", get_pin_direction(pin));
 
 	printf("value: %d\n", get_pin_value(pin));
+	printf("Setting value to 0...");
+	set_pin_value(pin, 0);
+	printf("Done! value: %d\n", get_pin_value(pin));
 	printf("========== GPIO self-test done ====\n");
 }

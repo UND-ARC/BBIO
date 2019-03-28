@@ -18,3 +18,4 @@
 int get_pin_direction(char* pin);
 int set_pin_direction(char* pin, int direction);
 int get_pin_value(char* pin);
+int set_pin_value(char* pin, int value);
