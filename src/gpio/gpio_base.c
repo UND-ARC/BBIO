@@ -112,7 +112,7 @@ int set_pin_direction(char* pin, int direction) {
  */
 int get_pin_value(char* pin) {
 	FILE* fp;
-	char* filepath = malloc(sizeof(char) * ( strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE) ));	
+	char* filepath = malloc(sizeof(char) * ( strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE) ));
 
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
@@ -151,13 +151,14 @@ int get_pin_value(char* pin) {
  */
 int set_pin_value(char* pin, int value) {
 	int cur_value = get_pin_value(pin);
+	if (get_pin_direction(pin) == 0) {
+		// pin is in input mode, return 0
+		return 0;
+	}
 	if (cur_value == value) {
 		// no work to be done
-		// however, if the pin is input, that's still an error
-		// with response code 0.
-		// because of this, we can simply return the pin direction
-		// (1 for output (good), 0 for input (bad), -1 other error)
-		return get_pin_direction(pin);
+		// already checked for pin in input mode
+		return 1;
 	}
 
 	FILE* fp;
