@@ -17,7 +17,7 @@
  */
 int get_pin_direction(char* pin) {
 	FILE *fp;
-	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION)));
+	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION) + 3));
 
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
@@ -54,7 +54,7 @@ int get_pin_direction(char* pin) {
  */
 int set_pin_direction(char* pin, int direction) {
 	FILE *fp;
-	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION)));
+	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_DIRECTION) + 3));
 
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
@@ -112,7 +112,7 @@ int set_pin_direction(char* pin, int direction) {
  */
 int get_pin_value(char* pin) {
 	FILE* fp;
-	char* filepath = malloc(sizeof(char) * ( strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE) ));
+	char* filepath = malloc(sizeof(char) * ( strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE) + 3));
 
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
@@ -162,7 +162,7 @@ int set_pin_value(char* pin, int value) {
 	}
 
 	FILE* fp;
-	char* filepath = malloc(sizeof(char) + (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE)));
+	char* filepath = malloc(sizeof(char) + (strlen(GPIO_PIN_DIR) + strlen(pin) + strlen(GPIO_PIN_VALUE) + 3));
 
 	strcpy(filepath, GPIO_PIN_DIR);
 	strcat(filepath, pin);
