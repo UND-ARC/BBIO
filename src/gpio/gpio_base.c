@@ -211,11 +211,13 @@ int main(void) {
 	printf("Setting to out...");
 	set_pin_direction(pin, 1);
 	printf("Done!  direction: %d\n", get_pin_direction(pin));
-
 	printf("value: %d\n", get_pin_value(pin));
-	printf("sleeping 1 second...");
+	
+	printf("Setting value to 1...\n");
+	set_pin_value(pin, 1);
+	printf("sleeping 1 second...\n");
 	sleep(1);
-	printf("Setting value to 0...");
+	printf("Setting value to 0...\n");
 	set_pin_value(pin, 0);
 	printf("Done! value: %d\n", get_pin_value(pin));
 	printf("========== GPIO self-test done ====\n");
