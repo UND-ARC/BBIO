@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+#include <unistd.h>  // for sleep()
 
 #ifndef GPIO_PIN_DIR
 	#define GPIO_PIN_DIR "/sys/class/gpio/"

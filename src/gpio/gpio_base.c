@@ -213,6 +213,8 @@ int main(void) {
 	printf("Done!  direction: %d\n", get_pin_direction(pin));
 
 	printf("value: %d\n", get_pin_value(pin));
+	printf("sleeping 1 second...");
+	sleep(1);
 	printf("Setting value to 0...");
 	set_pin_value(pin, 0);
 	printf("Done! value: %d\n", get_pin_value(pin));
