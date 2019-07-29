@@ -13,9 +13,19 @@
  	#define LIBRARY_BASICS
 #endif
 
+#ifndef TERM_IO
+  #include <termios.h>
+  #define TERM_IO
+#endif
+
 #ifndef DEVICE_DIR
   #define DEVICE_DIR "/dev/"
 #endif
 
 int does_exist(char* device);
-int 
+
+int get_baudrate(char* device);
+int set_baudrate(char* device, int baud);
+
+int write_to(char* device, char* message);
+char* read_from(char* device);
