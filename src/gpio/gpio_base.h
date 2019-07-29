@@ -4,11 +4,14 @@
  * GPIO pin usage headers
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>  // for sleep()
+#ifndef LIBRARY_BASICS
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <errno.h>
+	#include <string.h>
+	#include <unistd.h>
+	#define LIBRARY_BASICS
+#endif
 
 #ifndef GPIO_PIN_DIR
 	#define GPIO_PIN_DIR "/sys/class/gpio/"
