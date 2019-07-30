@@ -15,6 +15,7 @@
 
 #ifndef TERM_IO
   #include <termios.h>
+  #include <fcntl.h>
   #define TERM_IO
 #endif
 
@@ -22,10 +23,11 @@
   #define DEVICE_DIR "/dev/"
 #endif
 
-int does_exist(char* device);
+int convert_raw_to_termios(int rawrate);
+int convert_termios_to_raw(int termiosrate);
 
+int does_exist(char* device);
 int get_baudrate(char* device);
 int set_baudrate(char* device, int baud);
-
 int write_to(char* device, char* message);
 char* read_from(char* device);
