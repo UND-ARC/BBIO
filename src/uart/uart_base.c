@@ -6,6 +6,19 @@
 
 #include "uart_base.h"
 
+
+/*
+ * The following section is used for converting the termios baud rate constants
+ * to/from regular numbers.  The termios.h declarations are simply hex
+ * integers but do not correspond to the actual number -- B50 is 0x1, not 0x32.
+ *
+ * Define a conversion table with the corresponding normal integers and termios
+ * baud constants, then associated lookup functions to ease use.
+ *
+ * Both functions do exactly what they say on the tin and should be
+ * auto-explanatory.  If not, contact Misha.  Both functions return -1 if the
+ * desired conversion is not in the table.
+ */
 struct {
   int rawrate;
   int termiosrate;
@@ -35,6 +48,7 @@ int convert_termios_to_raw(int termiosrate) {
   }
   return -1;
 }
+
 
 /*
  * Determine whether or not a serial device exists.
@@ -93,8 +107,6 @@ int get_baudrate(char* device) {
   }
 
   int actual_baud = convert_termios_to_raw(speed_in);
-  return actual_baud;
-
   close(dev_fd);
-
+  return actual_baud;
 }
