@@ -10,7 +10,7 @@
 int get_hard_pin_number(char* pin_name) {
 		// name should be like "gpio66" or something
 		int i;
-		sscanf(pin_name, "%*[^0123456789]%d%n", &i);
+		sscanf(pin_name, "%*[^0123456789]%d", &i);
 		return i;
 }
 
