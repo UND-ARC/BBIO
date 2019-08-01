@@ -6,6 +6,15 @@
 
 #include "gpio_base.h"
 
+
+int get_hard_pin_number(char* pin_name) {
+		// name should be like "gpio66" or something
+		int i;
+		sscanf(pin_name, "%*[^0123456789]%d%n", &i);
+		return i;
+}
+
+
 /*
  * Determine if a GPIO pin exists or not.
  *
@@ -28,6 +37,34 @@ int does_gpio_exist(char* pin) {
     // file does not exist
     return 0;
   }
+}
+
+
+/*
+ * Create a GPIO pin if it does not exist.
+ *
+ * Arguments:
+ *  char* pin : the pin name (e.g. "gpio66")
+ *
+ * Returns 1 on success (or already exists), 0 on failure.
+ */
+int create_gpio(char* pin) {
+	/* command is "echo 66 > /sys/class/gpio/export" */
+	int pin_num = get_hard_pin_number(pin);
+	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("/export")));
+	strcpy(command, "echo ");
+	command += sprintf(command, "%d", pin_num);
+	strcat(command, " > ");
+	strcat(command, GPIO_PIN_DIR);
+	strcat(command, "/export");
+
+	int returncode = system(command);
+
+	if (returncode == 0) {
+		return 1;
+	} else {
+		return 0;
+	}
 }
 
 
