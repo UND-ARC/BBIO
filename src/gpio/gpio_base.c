@@ -50,6 +50,11 @@ int does_gpio_exist(char* pin) {
  */
 int create_gpio(char* pin) {
 	/* command is "echo 66 > /sys/class/gpio/export" */
+
+	if (does_gpio_exist(pin)) {
+		return 1;
+	}
+
 	int pin_num = get_hard_pin_number(pin);
 	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("/export")));
 	strcpy(command, "echo ");
@@ -57,6 +62,39 @@ int create_gpio(char* pin) {
 	strcat(command, " > ");
 	strcat(command, GPIO_PIN_DIR);
 	strcat(command, "/export");
+
+	int returncode = system(command);
+
+	if (returncode == 0) {
+		return 1;
+	} else {
+		return 0;
+	}
+}
+
+
+/*
+ * Remove an existing GPIO pin.
+ *
+ * Arguments:
+ *  char* pin : the pin name (e.g. "gpio66")
+ *
+ * Returns 1 on success (or already nonexistant) and 0 on failure.
+ */
+int delete_gpio(char* pin) {
+	/* command is "echo 66 > /sys/class/gpio/unexport" */
+
+	if (does_gpio_exist(pin) == 0) {
+		return 1;
+	}
+
+	int pin_num = get_hard_pin_number(pin);
+	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("/unexport")));
+	strcpy(command, "echo ");
+	command += sprintf(command, "%d", pin_num);
+	strcat(command, " > ");
+	strcat(command, GPIO_PIN_DIR);
+	strcat(command, "/unexport");
 
 	int returncode = system(command);
 
