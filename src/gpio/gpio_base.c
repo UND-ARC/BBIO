@@ -305,7 +305,14 @@ int set_pin_value(char* pin, int value) {
  */
 int main(void) {
 	printf("========== GPIO self-test =========\n");
+
 	printf("Pin: gpio66\n");  char pin[] = "gpio66";
+
+	printf("Pin number: %d\n", get_hard_pin_number(pin));
+	printf("Does it exist: %d\n", does_gpio_exist(pin));
+	printf("Deleting it... %d\n", delete_gpio(pin));
+	printf("Creating it... %d\n", create_gpio(pin));
+
 	printf("direction: %d\n", get_pin_direction(pin));
 	printf("Setting to out...");
 	set_pin_direction(pin, 1);
