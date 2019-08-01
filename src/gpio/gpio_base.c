@@ -6,6 +6,30 @@
 
 #include "gpio_base.h"
 
+/*
+ * Determine if a GPIO pin exists or not.
+ *
+ * Arguments:
+ *  char* pin : the pin name (e.g. "gpio66")
+ *
+ * Returns 1 if pin exists, 0 if not.
+ */
+int does_gpio_exist(char* pin) {
+	char* filepath = malloc(sizeof(char) * (strlen(GPIO_PIN_DIR) + strlen(pin) + 3));
+	strcpy(filepath, GPIO_PIN_DIR);
+	strcat(filepath, pin);
+	strcat(filepath, "/");
+
+	// access is from <unistd.h>, checks for file existance :)
+  if (access(filepath, F_OK) != -1) {
+    // file exists
+    return 1;
+  } else {
+    // file does not exist
+    return 0;
+  }
+}
+
 
 /*
  * Get the (gpio) pin direction, in or out.
@@ -212,7 +236,7 @@ int main(void) {
 	set_pin_direction(pin, 1);
 	printf("Done!  direction: %d\n", get_pin_direction(pin));
 	printf("value: %d\n", get_pin_value(pin));
-	
+
 	printf("Setting value to 1...\n");
 	set_pin_value(pin, 1);
 	printf("sleeping 1 second...\n");
