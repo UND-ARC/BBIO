@@ -314,7 +314,10 @@ int main(void) {
 	printf("Creating it... %d\n", create_gpio(pin));
 
 	printf("direction: %d\n", get_pin_direction(pin));
-	printf("Setting to out...");
+	printf("Setting to in...\n");
+	set_pin_direction(pin, 0);
+	printf("Done!  direction: %d\n", get_pin_direction(pin));
+	printf("Setting to out...\n");
 	set_pin_direction(pin, 1);
 	printf("Done!  direction: %d\n", get_pin_direction(pin));
 	printf("value: %d\n", get_pin_value(pin));
