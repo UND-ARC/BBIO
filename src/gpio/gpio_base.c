@@ -56,12 +56,14 @@ int create_gpio(char* pin) {
 	}
 
 	int pin_num = get_hard_pin_number(pin);
-	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("/export")));
+	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("export")));
+	char pin_num_str[3];
+	sprintf(pin_num_str, "%d", pin_num);
 	strcpy(command, "echo ");
-	command += sprintf(command, "%d", pin_num);
+	strcat(command, pin_num_str);
 	strcat(command, " > ");
 	strcat(command, GPIO_PIN_DIR);
-	strcat(command, "/export");
+	strcat(command, "export");
 
 	int returncode = system(command);
 
@@ -89,12 +91,14 @@ int delete_gpio(char* pin) {
 	}
 
 	int pin_num = get_hard_pin_number(pin);
-	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("/unexport")));
+	char* command = malloc(sizeof(char) * (strlen("echo") + 7 + strlen(GPIO_PIN_DIR) + strlen("unexport")));
+	char pin_num_str[3];
+	sprintf(pin_num_str, "%d", pin_num);
 	strcpy(command, "echo ");
-	command += sprintf(command, "%d", pin_num);
+	strcat(command, pin_num_str);
 	strcat(command, " > ");
 	strcat(command, GPIO_PIN_DIR);
-	strcat(command, "/unexport");
+	strcat(command, "unexport");
 
 	int returncode = system(command);
 
